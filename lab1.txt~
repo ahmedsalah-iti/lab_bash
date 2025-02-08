@@ -82,17 +82,79 @@ awk '
 		FS=":"
 	}
 	{
-		for ($i = 0;
+		modified = 0
+		for (i = 1; i <= NF; i++){
+			if ($i == "lp"){
+				$i = "mylp"
+				modified = 1
+			}
+		}
+		if (modified == 1){
+			print $0
+		}
+		
 	}
 	END{
 	}
 ' /etc/passwd
 ====================================
+awk '
+	BEGIN{
+		FS=":"
+		maxUID  = 0
+		info = ""
+	}
+	{
+		if ( $3 > maxUID){
+			maxUID = $3
+			info = $0
+		}
+	}
+	END{
+		print info
+	}
+' /etc/passwd
 ====================================
-====================================
-====================================
+awk '
+	BEGIN{
+		FS=":"
+		sumUID  = 0
+	}
+	{
+		sumUID += $3
+	}
+	END{
+		print sumUID
+	}
+' /etc/passwd
+=====================================
+============>BONUS<================>>>>> BONUS CANCELED , i'll upload it later.
+=====================================
 
+awk '
+	BEGIN{
+		FS=":"
+	}
+	{
+		sums[$4] += $3
+	}
+	END{
+		for ( gid in  sums){
+			print gid,sums[gid]
+		}
+	}
+' /etc/passwd
 
+====================================
+====================================
+====================================
+NF -> Number Fields
+NR -> Number Rows
+FS -> Field separator
+OFS -> Output Field separator
+array syntax :
+myArray["key1"] = "value1"
+https://github.com/ahmedsalah-iti/lab_bash
 
 
 
