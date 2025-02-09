@@ -4,3 +4,127 @@
 read -p "Please write your name: " name
 echo " welcome $name ! "
 ===============================
+=2===============================
+#!/usr/bin/bash
+echo "Hello from S1"
+export x=5
+./s2.sh
+echo "Bye from S1"
+
+#!/usr/bin/bash
+echo "Hello from S1"
+x=5
+source ./s2.sh
+echo "Bye from S1"
+
+#!/usr/bin/bash
+echo "Hello from S2"
+echo "x value is : $x"
+echo "Bye from S2"
+
+===============================
+=3===============================
+#!/usr/bin/bash
+if [[ $# -lt 2 ]]
+then
+    echo "usage: $0 sourceFileName targetFileName"
+    exit
+fi
+if [[ $# -eq 2 ]]
+then
+    if [[ -f $1 ]]
+    then
+        if [[ -f $2 ]]
+        then
+            echo "sorry there is already existed file called $2 , and override isn't allowed."
+            exit
+        else
+            # it's dir or it's not existed file.
+            cp $1 $2
+            echo "coppied successfuly."
+            exit
+        fi
+    else
+        echo "$1 isn't existed file !"
+        exit
+    fi
+fi
+
+if [[ $# -gt 2 ]]
+then
+    if [[ -d ${@: -1} ]]
+    then
+        cp $@
+    else
+        echo "sorry ${@: -1} isn't a folder !"
+    fi
+fi
+===============================
+=4=============================
+#!/usr/bin/bash
+if [[ $# -lt 1 ]]
+then
+    cd
+    pwd
+else
+    if [[ -d $1 ]]
+    then
+        cd $1
+        pwd
+    else
+        echo "sorry $1 it's not valid dir !"
+    fi
+fi
+
+===============================
+=5=============================
+#!/usr/bin/bash
+if [[ $# -lt 1 ]]
+then
+    ls
+    
+else
+    if [[ -d $1 ]]
+    then
+        ls $1
+        
+    else
+        echo "sorry $1 it's not valid dir !"
+    fi
+fi
+
+===============================
+=6=============================
+#!/usr/bin/bash
+if [[ $# -lt 1 ]]
+then
+    ls
+else
+    dirArg=''
+    if [[ $# -gt 1 ]]
+    then
+        dirArg=${@: -1}
+    fi
+
+    if [[ $1 == "-l" ]]
+    then
+        ls -l $dirArg
+    elif [[ $1 == "-a" ]]
+    then
+        ls -a $dirArg
+    elif [[ $1 == "-d" ]]
+    then
+        ls -d $dirArg
+    elif [[ $1 == "-i" ]]
+    then
+        ls -i $dirArg
+    elif [[ $1 == "-R" ]]
+    then
+        ls -R $dirArg
+    else
+        echo "this option isn't supported yet."
+fi
+fi
+
+===============================
+===============================
